@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+<title>Decrypt Documents</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="bootstrap.min.css">
+<meta name="theme-color" content="#7952b3">
+
+
+<style>
+	.bd-placeholder-img {
+		font-size: 1.125rem;
+		text-anchor: middle;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		user-select: none;
+	}
+
+	@media (min-width: 768px) {
+		.bd-placeholder-img-lg {
+			font-size: 3.5rem;
+		}
+	}
+</style>
+
+<!-- Custom styles for this template -->
+<link href="cover.css" rel="stylesheet">
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+	<!-- Keeping empty header as deleting impacts layout -->
+	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+		<header class="mb-auto">
+			<div>
+				<!-- <h3 class="float-md-start mb-0">Cover</h3> -->
+				<nav class="nav nav-masthead justify-content-center float-md-end">
+					<!-- <a class="nav-link active" aria-current="page" href="#">Home</a>
+					<a class="nav-link" href="#">Features</a>
+					<a class="nav-link" href="#">Contact</a> -->
+				</nav>
+			</div>
+		</header>
+
+		<main class="px-3">
+			<h1>Remove PDF Protections</h1>
+			<p class="lead">Upload .pdf files to produce a version without edit protections (bypassing “Please enter a Permissions Password”
+			message in Acrobat).</p>
+			<p class="lead">
+				<input type="file" id="open-file-input" accept=".pdf,.xps,application/pdf" onchange="removeProtections(event.target.files)" multiple>
+
+			</p>
+		</main>
+
+		<!-- Keeping empty footer as deleting impacts layout -->
+		<footer class="mt-auto text-white-50">
+		</footer>
+	</div>
+
+
+
+</body>
+
+<script src="mupdf-async.js"></script>
+<script src="FileSaver.js"></script>
+
+<script>
+"use strict";
+
+
+async function removeProtections(files) { 
+	for (let i=0;i<files.length;i++){
+		const fileIArray = await files[i].arrayBuffer();
+		const r = new Uint8Array(fileIArray); 
+		let content = await mupdf.cleanFile(r);
+		let b2 = new Blob([content], { type: 'application/octet-stream' });
+		saveAs(b2, files[i].name)
+	}
+} 
+
+
+mupdf.oninit = function () {
+}
+
+</script>
+</html>
