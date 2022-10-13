@@ -59,8 +59,8 @@ Module.onRuntimeInitialized = function () {
 };
 
 mupdf.cleanFile = function (data) {
-	//Module.FS.writeFile("test_1.pdf", data)
-	Module.FS_createDataFile("/", "test_1.pdf", data, 1, 1, 1)
+	FS.writeFile("test_1.pdf", data)
+	// Module.FS_createDataFile("/", "test_1.pdf", data, 1, 1, 1)
 	mupdf.writeDocument();
 	let content = FS.readFile("/test_2.pdf");
 

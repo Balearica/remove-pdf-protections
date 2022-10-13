@@ -47,9 +47,10 @@
 			<p class="lead">Upload .pdf files to produce a version without edit protections (bypassing “Please enter a Permissions Password”
 			message in Acrobat).</p>
 			<p class="lead">
-				<input type="file" id="open-file-input" accept=".pdf,.xps,application/pdf" onchange="removeProtections(event.target.files)" multiple>
-
+				<input type="file" id="openFileInput" accept=".pdf,.xps,application/pdf" multiple>
 			</p>
+			<ul id="fileList" class="list-group">
+			</ul>
 		</main>
 
 		<!-- Keeping empty footer as deleting impacts layout -->
@@ -63,24 +64,5 @@
 
 <script src="mupdf-async.js"></script>
 <script src="FileSaver.js"></script>
-
-<script>
-"use strict";
-
-
-async function removeProtections(files) { 
-	for (let i=0;i<files.length;i++){
-		const fileIArray = await files[i].arrayBuffer();
-		const r = new Uint8Array(fileIArray); 
-		let content = await mupdf.cleanFile(r);
-		let b2 = new Blob([content], { type: 'application/octet-stream' });
-		saveAs(b2, files[i].name)
-	}
-} 
-
-
-mupdf.oninit = function () {
-}
-
-</script>
+<script src="main.js" type="module"></script>
 </html>
